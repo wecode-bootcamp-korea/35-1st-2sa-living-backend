@@ -47,7 +47,7 @@ class Product(models.Model):
     is_new             = models.BooleanField()
     sub_category       = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     cololr             = models.ForeignKey(Color, on_delete=models.CASCADE)
-    Furniture          = models.ForeignKey(Furniture, on_delete=models.CASCADE)
+    furniture          = models.ForeignKey(Furniture, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'products'
