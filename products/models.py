@@ -1,12 +1,12 @@
 from django.db import models
 
-
 class Category(models.Model):
     name = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'categories'
-
+    def __str__(self):
+        return self.name
 
 class SubCategory(models.Model):
     name     = models.CharField(max_length=45)
@@ -14,21 +14,24 @@ class SubCategory(models.Model):
 
     class Meta:
         db_table = 'sub_categories'
-
+    def __str__(self):
+        return self.name
 
 class Brand(models.Model):
     name = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'brands'
-
+    def __str__(self):
+        return self.name
 
 class Color(models.Model):
     name = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'colors'
-
+    def __str__(self):
+        return self.name
 
 class Furniture(models.Model):
     name       = models.CharField(max_length=45)
@@ -38,20 +41,20 @@ class Furniture(models.Model):
 
     class Meta:
         db_table = 'furnitures'
-
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
-    thumnail_image_url = models.CharField(max_length=200)
-    main_image_url     = models.CharField(max_length=200)
-    price              = models.IntegerField()
-    is_new             = models.BooleanField()
-    sub_category       = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
-    cololr             = models.ForeignKey(Color, on_delete=models.CASCADE)
-    furniture          = models.ForeignKey(Furniture, on_delete=models.CASCADE)
+    thumbnail_image_url = models.CharField(max_length=200)
+    main_image_url      = models.CharField(max_length=200)
+    price               = models.IntegerField()
+    is_new              = models.BooleanField()
+    sub_category        = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    color               = models.ForeignKey(Color, on_delete=models.CASCADE)
+    furniture           = models.ForeignKey(Furniture, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'products'
-
 
 class ProductImage:
     image_url = models.CharField(max_length=45)
