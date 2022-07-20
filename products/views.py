@@ -1,9 +1,9 @@
 import json
-from django.http import JsonResponse
 
+from django.http import JsonResponse
 from django.views import View
 
-from .models import Category, SubCategory, Product
+from .models import Category, Furniture, SubCategory, Product
 
 
 class ListView(View):
@@ -61,11 +61,11 @@ class ListView(View):
                 product_list = []
                 for product in products:
                     product_list.append({
-                        'id': product.id,
-                        'image': product.thumbnail_image_url,
-                        'brandName': product.furniture.brand.name,
-                        'productName': product.furniture.name + '_' + product.color.name,  # 가능? 오 된다
-                        'price': product.price
+                        'id'         : product.id,
+                        'image'      : product.thumbnail_image_url,
+                        'brandName'  : product.furniture.brand.name,
+                        'productName': product.furniture.name + '_' + product.color.name, # 가능? 오 된다
+                        'price'      : product.price
                     })
                 return JsonResponse({'message': 'SUCCESS', 'sub_list': sub_list, 'product_list': product_list}, status=200)
             elif selected_category in [category.name for category in sub_categories]:
@@ -74,11 +74,11 @@ class ListView(View):
                 product_list = []
                 for product in products:
                     product_list.append({
-                        'id': product.id,
-                        'image': product.thumbnail_image_url,
-                        'brandName': product.furniture.brand.name,
+                        'id'         : product.id,
+                        'image'      : product.thumbnail_image_url,
+                        'brandName'  : product.furniture.brand.name,
                         'productName': product.furniture.name + '_' + product.color.name,
-                        'price': product.price
+                        'price'      : product.price
                     })
                 return JsonResponse({'message': 'SUCCESS', 'product_list': product_list}, status=200)
             else:
@@ -87,7 +87,6 @@ class ListView(View):
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)
         except json.JSONDecodeError:
             return JsonResponse({'message': 'JSON_ERROR'}, status=400)
-
 
 
 class DetailView(View):
@@ -100,18 +99,29 @@ class DetailView(View):
 
     def get(self, request):
         try:
-            data = json.loads(request.body)
-            product_id = data['product_id'] 
-            product = Product.objects.get(id = product_id)
+            data       = json.loads(request.body)
+
+            product_id = data['product_id']
+            product    = Product.objects.get(id = product_id)
 
             description = [
                 {
                     "english_name": product.furniture.engilsh_name + '_' + product.color.english_name ,
-                    'name'        : product.furniture.name + '_' + product.color.name ,
+                    'name'        : product.furniture.korean_name + '_' + product.color.korean_name ,
                     'main_image'  : product.main_image_url,
                     'detail_image': product.detail_image.image_url,
                 }]
 
+            related_products = Product.objects.filter(Furniture_id = product.furniture_id)
+
+            related_product_list = []
+            for related_product in related_products:
+                related_product_list.append({
+                    'color': related_product.color.korean_name,
+                    'price': related_product.price
+                })
+
+            return JsonResponse({'description': description, 'related_products': related_product_list}, status=200)
 
             '''
             'description' : [
