@@ -29,7 +29,7 @@ class Brand(models.Model):
         return self.name
 
 class Color(models.Model):
-    name         = models.CharField(max_length=45)
+    korean_name  = models.CharField(max_length=45)
     english_name = models.CharField(max_length=45)
 
     class Meta:
@@ -39,7 +39,7 @@ class Color(models.Model):
         return self.name
 
 class Furniture(models.Model):
-    name         = models.CharField(max_length=45)
+    korean_name  = models.CharField(max_length=45)
     english_name = models.CharField(max_length=45)
     brand        = models.ForeignKey(Brand, on_delete=models.CASCADE)
     created_at   = models.DateTimeField(auto_now_add=True)
@@ -65,7 +65,7 @@ class Product(models.Model):
 
 class ProductImage:
     image_url = models.CharField(max_length=45)
-    product   = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product   = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='detail_image')
 
     class Meta:
         db_table = 'product_images'
