@@ -89,3 +89,56 @@ class ListView(View):
             return JsonResponse({'message': 'JSON_ERROR'}, status=400)
 
 
+
+class DetailView(View):
+    '''
+    목적: 사용자가 선택한 제품(product)의 상세정보를 보내준다.
+    1. client가 보내온 데이터에서 제품아이디를 받아온다.
+    2. 요청받은 product_id에 해당하는 상제 정보를 DB에서 찾는다.
+    3. 찾은 데이터를 반환한다.
+    '''
+
+    def get(self, request):
+        try:
+            data = json.loads(request.body)
+            product_id = data['product_id'] 
+            product = Product.objects.get(id = product_id)
+
+            description = [
+                {
+                    "english_name": product.furniture.engilsh_name + '_' + product.color.english_name ,
+                    'name'        : product.furniture.name + '_' + product.color.name ,
+                    'main_image'  : product.main_image_url,
+                    'detail_image': product.detail_image.image_url,
+                }]
+
+
+            '''
+            'description' : [
+                {
+                    "english_name": 'Puff Puff Sofa' + '_' + 'Red',
+                    'name'        : '퍼프 퍼프 소파' + '_' + '레드',
+                    'main_image'  : 'https://aaaaaa',
+                    'detail_image': 'https://bbbbb',
+                }],
+            'related_products' : [
+                {
+                    'color' : '레드',
+                    'price' : 1000000
+                },
+                {
+                    'color' : '화이트',
+                    'price' : 1100000
+                },
+                {
+                    'color' : '블랙',
+                    'price' : 1500000
+                }
+            ]
+            '''
+
+        except KeyError:
+            return JsonResponse({'message': 'KEY_ERROR'}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'JSON_ERROR'}, status=400)
+
