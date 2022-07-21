@@ -36,7 +36,7 @@ class Color(models.Model):
         db_table = 'colors'
 
     def __str__(self):
-        return self.name
+        return self.korean_name
 
 class Furniture(models.Model):
     korean_name  = models.CharField(max_length=45)
@@ -49,7 +49,7 @@ class Furniture(models.Model):
         db_table = 'furnitures'
 
     def __str__(self):
-        return self.name
+        return self.korean_name
 
 class Product(models.Model):
     thumbnail_image_url = models.CharField(max_length=200)
