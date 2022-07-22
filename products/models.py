@@ -63,7 +63,7 @@ class Product(models.Model):
     class Meta:
         db_table = 'products'
 
-class ProductImage:
+class ProductImage(models.Model):
     image_url = models.CharField(max_length=45)
     product   = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='detail_image')
 
