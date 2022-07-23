@@ -42,15 +42,17 @@ class CartView(View):
         for cart in carts:
             results_cart.append(
                 {
-                    "cart_id"          : cart.id,
-                    "cart_image"       : cart.product.thumbnail_image_url,
-                    "user_firstname"   : cart.user.first_name,
-                    "user_lastname"    : cart.user.last_name,
-                    "product_furniture": cart.product.furniture.name,
-                    "product_brand"    : cart.product.furniture.brand.name,
-                    "product_color"    : cart.product.color.name,
-                    "price"            : cart.product.price,
-                    "quantity"         : cart.quantity,
+                    "cart_id"                     : cart.id,
+                    "cart_image"                  : cart.product.thumbnail_image_url,
+                    "user_firstname"              : cart.user.first_name,
+                    "user_lastname"               : cart.user.last_name,
+                    "furniture_korean_name"       : cart.product.furniture.korean_name,
+                    "furniture_english_name"      : cart.product.furniture.english_name,
+                    "furniture_brand"             : cart.product.furniture.brand.name,
+                    "furniture_color_korean_name" : cart.product.color.korean_name,
+                    "furniture_color_english_name": cart.product.color.english_name,
+                    "price"                       : cart.product.price,
+                    "quantity"                    : cart.quantity,
                 }
             )
         return JsonResponse({"carts" : results_cart}, status = 200)
