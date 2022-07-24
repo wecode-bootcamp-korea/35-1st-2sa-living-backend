@@ -17,16 +17,17 @@ class CartView(View):
             user      = request.user
             quantity = data['quantity']
 
-            if not Cart.objects.filter(product=product).exists():
+            if not Cart.objects.filter(product=product,user=user).exists():
                 Cart.objects.create(
-                user     = user,
-                product  = product,
-                quantity = quantity
+                    user     = user,
+                    product  = product,
+                    quantity = quantity
                 )
             else:
-                temp   = Cart.objects.get(product=product).quantity
+                temp = Cart.objects.filter(product=product, user=user)[0].quantity
+                print(Cart.objects.filter(product=product, user=user)[0].quantity)
                 temp += quantity
-                Cart.objects.filter(product=product).update(quantity=temp)
+                Cart.objects.filter(product=product,user=user).update(quantity=temp)
             return JsonResponse({"message" : "Created"}, status = 200)
 
         except KeyError:
