@@ -24,10 +24,9 @@ class CartView(View):
                     quantity = quantity
                 )
             else:
-                temp = Cart.objects.filter(product=product, user=user)[0].quantity
-                print(Cart.objects.filter(product=product, user=user)[0].quantity)
-                temp += quantity
-                Cart.objects.filter(product=product,user=user).update(quantity=temp)
+                cart = Cart.objects.get(product=product,user=user)
+                cart.quantity += quantity
+                Cart.objects.filter(product=product,user=user).update(quantity=cart.quantity)
             return JsonResponse({"message" : "Created"}, status = 200)
 
         except KeyError:
