@@ -4,7 +4,7 @@ from django.http  import JsonResponse
 from django.views import View
 from django.core.paginator import Paginator
 
-from .models import Category, Furniture, ProductImage, SubCategory, Product, Brand, Color 
+from .models import Category, SubCategory, Product
 
 
 class ProductListView(View):
@@ -15,15 +15,13 @@ class ProductListView(View):
 
         if int(category_id) in [c.id for c in Category.objects.all()] and int(sub_category_id) in [c.id for c in SubCategory.objects.all()]:
             products = Product.objects.filter(sub_category_id = sub_category_id) or Product.objects.filter(sub_category__category_id = category_id) 
-            product_list = []
-            for product in products:
-                product_list.append({
-                    'id'         : product.id,
-                    'image'      : product.thumbnail_image_url,
-                    'brandName'  : product.furniture.brand.name,
-                    'productName': product.furniture.korean_name + '_' + product.color.korean_name,
-                    'price'      : product.price
-                })
+            product_list = [{
+                'id'         : product.id,
+                'image'      : product.thumbnail_image_url,
+                'brandName'  : product.furniture.brand.name,
+                'productName': product.furniture.korean_name + '_' + product.color.korean_name,
+                'price'      : product.price
+            } for product in products]    
 
             try: 
                 paginator    = Paginator(product_list, 4)
