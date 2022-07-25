@@ -1,7 +1,7 @@
 import json
 
-from django.http  import JsonResponse
-from django.views import View
+from django.http           import JsonResponse
+from django.views          import View
 from django.core.paginator import Paginator
 
 from .models import Category, SubCategory, Product
