@@ -1,0 +1,55 @@
+id	category	sub_category	brand_name	furniture_korean_name	furniture_english_name	color_korean_name	color_english_name	price	thumbnail_image_url	main_image_url	detail_image_url	is_new
+1	chair	바 체어	&Tradition	리볼버 바스툴 H65	Revolver Bar Stool H65	블랙	black	120000 	/images/productimg/s001.png	/images/productimg/001.png	/images/productimg/001.png	False
+2	chair	바 체어	&Tradition	리볼버 바스툴 H65	Revolver Bar Stool H65	화이트	white	120000 	/images/productimg/s001.png	/images/productimg/001.png	/images/productimg/001.png	False
+3	chair	바 체어	&Tradition	리볼버 바스툴 H65	Revolver Bar Stool H65	레드	red	150000 	/images/productimg/s001.png	/images/productimg/001.png	/images/productimg/001.png	True
+4	sofa	가죽 소파	Alessi	테디 소파	Teddy Sofa	화이트	white	68000 	/images/productimg/s002.png	/images/productimg/002.png	/images/productimg/002.png	False
+5	sofa	가죽 소파	Alessi	테디 소파	Teddy Sofa	올리브	olive	78000 	/images/productimg/s002.png	/images/productimg/002.png	/images/productimg/002.png	True
+6	sofa	가죽 소파	Alessi	도나 텔로 2인	Donatello 2 Seater	초코	choco	75000	/images/productimg/s003.png	/images/productimg/003.png	/images/productimg/003.png	False
+7	sofa	가죽 소파	Alessi	도나 텔로 2인	Donatello 2 Seater	블랙	black	85000	/images/productimg/s003.png	/images/productimg/003.png	/images/productimg/003.png	False
+8	sofa	가죽 소파	Alessi	도나 텔로 2인	Donatello 2 Seater	앤티크	antique	100000	/images/productimg/s003.png	/images/productimg/003.png	/images/productimg/003.png	True
+9	chair	라운지 체어	&Tradition	팔리사드 쉐이즈 롱	Palissade Chaise	우드	wood	82000	/images/productimg/s004.png	/images/productimg/004.png	/images/productimg/004.png	False
+10	chair	라운지 체어	&Tradition	팔리사드 쉐이즈 롱	Palissade Chaise	올리브	olive	82000	/images/productimg/s004.png	/images/productimg/004.png	/images/productimg/004.png	False
+11	chair	라운지 체어	&Tradition	팔리사드 쉐이즈 롱	Palissade Chaise	화이트	white	82000	/images/productimg/s004.png	/images/productimg/004.png	/images/productimg/004.png	False
+12	chair	바 체어	ARCHITECTMADE	팔리사드 바스툴 	Palissade bar stool	베이지	beige	55000	/images/productimg/s005.png	/images/productimg/005.png	/images/productimg/005.png	False
+13	chair	라운지 체어	artek 	비트라 그랜드 레포스	Grand Repos	옐로우	yellow	59000	/images/productimg/s006.png	/images/productimg/006.png	/images/productimg/006.png	False
+14	chair	라운지 체어	artek 	비트라 그랜드 레포스	Grand Repos	오크	oak	59000	/images/productimg/s006.png	/images/productimg/006.png	/images/productimg/006.png	False
+15	chair	라운지 체어	artek 	비트라 그랜드 레포스	Grand Repos	그레이	gray	59000	/images/productimg/s006.png	/images/productimg/006.png	/images/productimg/006.png	False
+16	table	다이닝 테이블	Anglepoise	라이트 라운드 마블 다이닝	Right Round Marble Dining	화이트	white	300000	/images/productimg/s007.png	/images/productimg/007.png	/images/productimg/007.png	False
+17	table	다이닝 테이블	Anglepoise	라이트 라운드 마블 다이닝	Right Round Marble Dining	블랙	black	400000	/images/productimg/s007.png	/images/productimg/007.png	/images/productimg/007.png	True
+18	table	다이닝 테이블	artek 	CPH30 테이블	CPH30 table	화이트	white	670000 	/images/productimg/s008.png	/images/productimg/008.png	/images/productimg/008.png	False
+19	table	다이닝 테이블	artek 	CPH30 테이블	CPH30 table	레드	red	670000 	/images/productimg/s008.png	/images/productimg/008.png	/images/productimg/008.png	False
+20	table	다이닝 테이블	artek 	CPH30 테이블	CPH30 table	블루	blue	670000 	/images/productimg/s008.png	/images/productimg/008.png	/images/productimg/008.png	False
+21	bed	프레임 침대	&Tradition	헝커 킹 베드	Hunker King Bed	우드	wood	1200000	/images/productimg/s009.png	/images/productimg/009.png	/images/productimg/009.png	False
+22	bed	프레임 침대	&Tradition	헝커 킹 베드	Hunker King Bed	그레이	gray	1200000	/images/productimg/s009.png	/images/productimg/009.png	/images/productimg/009.png	False
+23	bed	프레임 침대	&Tradition	헝커 킹 베드	Hunker King Bed	화이트	white	1500000	/images/productimg/s009.png	/images/productimg/009.png	/images/productimg/009.png	True
+24	closet	서랍장	image republic	7단 피봇 캐비넷	7 Step Pivot cabinet	화이트	white	450000	/images/productimg/s010.png	/images/productimg/010.png	/images/productimg/010.png	True
+25	closet	서랍장	Dottus	6단 멀티 캐비넷	6 step multi cabinet	오크	oak	420000	/images/productimg/s011.png	/images/productimg/011.png	/images/productimg/011.png	True
+26	bed	프레임 침대	&Tradition	헝커 베드 킹 에드워드	Hunker King Bed Edwards	우드	wood	1700000	/images/productimg/s012.png	/images/productimg/012.png	/images/productimg/012.png	False
+27	bed	프레임 침대	&Tradition	헝커 베드 킹 에드워드	Hunker King Bed Edwards	라이트그레이	light gray	1700000	/images/productimg/s012.png	/images/productimg/012.png	/images/productimg/012.png	False
+28	closet	거실장	&Tradition	당 롱 앤 로우	Dang Long and Low	그레이	grey	240000 	/images/productimg/s013.png	/images/productimg/013.png	/images/productimg/013.png	True
+29	bed	프레임 침대	ARCHITECTMADE	나탈리아 헤드보드	Natalia Headboard	옐로우	yellow	2450000	/images/productimg/s014.png	/images/productimg/014.png	/images/productimg/014.png	False
+30	bed	프레임 침대	ARCHITECTMADE	나탈리아 헤드보드	Natalia Headboard	레드	red	2450000	/images/productimg/s014.png	/images/productimg/014.png	/images/productimg/014.png	False
+31	bed	프레임 침대	ARCHITECTMADE	나탈리아 헤드보드	Natalia Headboard	블루	blue	2450000	/images/productimg/s014.png	/images/productimg/014.png	/images/productimg/014.png	False
+32	sofa	가죽 소파	Anglepoise	퍼프 퍼프 소파	Puff Puff Sofa	화이트	white	920000	/images/productimg/s015.png	/images/productimg/015.png	/images/productimg/015.png	False
+33	sofa	가죽 소파	Anglepoise	퍼프 퍼프 소파	Puff Puff Sofa	레드	red	950000	/images/productimg/s015.png	/images/productimg/015.png	/images/productimg/015.png	False
+34	sofa	가죽 소파	Anglepoise	퍼프 퍼프 소파	Puff Puff Sofa	초코	choco	980000	/images/productimg/s015.png	/images/productimg/015.png	/images/productimg/015.png	True
+35	table	사이드 테이블	artek 	하이드 페데스탈 H70	Hide Pedestal H70	오크	oak	410000	/images/productimg/s016.png	/images/productimg/016.png	/images/productimg/016.png	True
+36	table	사이드 테이블	artek 	하이드 페데스탈 H70	Hide Pedestal H70	네추럴	natural	450000	/images/productimg/s016.png	/images/productimg/016.png	/images/productimg/016.png	True
+37	sofa	페브릭 소파	&Tradition	스로 소파 내추럴	Throw Sofa Natural	그레이	grey	2700000	/images/productimg/s017.png	/images/productimg/017.png	/images/productimg/017.png	False
+38	closet	거실장	image republic	미디어 스탠드	Media Stand	화이트	white	230000	/images/productimg/s018.png	/images/productimg/018.png	/images/productimg/018.png	False
+39	closet	거실장	image republic	미디어 스탠드	Media Stand	월넛	walnut	330000	/images/productimg/s018.png	/images/productimg/018.png	/images/productimg/018.png	False
+40	closet	서랍장	ARCHITECTMADE	까비네 102 로우 2 도어	KABINE 102 Low 2 Door	오크	oak	890000	/images/productimg/s019.png	/images/productimg/019.png	/images/productimg/019.png	False
+41	closet	서랍장	ARCHITECTMADE	까비네 102 로우 2 도어	KABINE 102 Low 2 Door	블랙	black	1290000	/images/productimg/s019.png	/images/productimg/019.png	/images/productimg/019.png	False
+42	sofa	페브릭 소파	Dottus	도나텔로2인	Donatello 2	올리브	olive	600000 	/images/productimg/s020.png	/images/productimg/020.png	/images/productimg/020.png	False
+43	sofa	페브릭 소파	Dottus	도나텔로2인	Donatello 2	라이트그레이	light gray	700000 	/images/productimg/s020.png	/images/productimg/020.png	/images/productimg/020.png	False
+44	table	다이닝 테이블	&Tradition	Two Colour Table Ø105	투 컬러 테이블 Ø105	오크	oak	470000	/images/productimg/s021.png	/images/productimg/021.png	/images/productimg/021.png	False
+45	sofa	페브릭 소파	ARCHITECTMADE	앳우드 체어	ATWOOD CHAIR	스카이블루	skyblue	420000	/images/productimg/s022.png	/images/productimg/022.png	/images/productimg/022.png	False
+46	sofa	가죽 소파	Anglepoise	마곳 소파	MARGOT SOFA	우드	wood	6400000	/images/productimg/s023.png	/images/productimg/023.png	/images/productimg/023.png	False
+47	sofa	페브릭소파	artek 	팔로 소파	Palo Corner Sofa	그린	green	1100000	/images/productimg/s024.png	/images/productimg/024.png	/images/productimg/024.png	True
+48	closet	거실장	&Tradition	당 1 도어 / 3 드로워 콘솔	Dang 1 Door / 3 Drawer	블랙	black	300000 	/images/productimg/s025.png	/images/productimg/025.png	/images/productimg/025.png	True
+49	bed	매트리스	Dottus	크레탄 스피릿 매트리스	Cretan spirit	그레이	grey	1750000	/images/productimg/s026.png	/images/productimg/026.png	/images/productimg/026.png	True
+50	bed	매트리스	Anglepoise	올림푸스 뷰 매트리스	Olympus view	오크	oak	3200000	/images/productimg/s027.png	/images/productimg/027.png	/images/productimg/027.png	False
+51	table	사이드 테이블	Alessi	인비트윈 커피 테이블 SK15	In Between Coffee Table SK15	우드	wood	850000	/images/productimg/s028.png	/images/productimg/028.png	/images/productimg/028.png	True
+52	bed	매트리스	Anglepoise	에이지언 선셋 매트리스	Aegean sunset	화이트	white	2100000	/images/productimg/s029.png	/images/productimg/029.png	/images/productimg/029.png	True
+53	table	다이닝 테이블	Alessi	비트라 EM 테이블	EM Table	오크	oak	750000	/images/productimg/s030.png	/images/productimg/030.png	/images/productimg/030.png	False
+54	table	다이닝 테이블	Alessi	비트라 EM 테이블	EM Table	네추럴	natural	750000	/images/productimg/s030.png	/images/productimg/030.png	/images/productimg/030.png	False
