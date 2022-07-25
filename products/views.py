@@ -1,6 +1,3 @@
-import json
-from unicodedata import category
-
 from django.http           import JsonResponse
 from django.views          import View
 from django.core.paginator import Paginator
@@ -11,34 +8,44 @@ from .models import Category, SubCategory, Product
 
 class ProductListView(View):
     def get(self, request):
+        try:
+            category_id     = request.GET.get('category_id', None)
+            sub_category_id = request.GET.get('sub_category_id', None)
+            page_number     = request.GET.get('page', 1)
+            
+            if category_id:
+                Category.objects.get(id = category_id)
+            if sub_category_id:
+                SubCategory.objects.get(id = sub_category_id)
+            
+            q = Q()
+            if category_id:
+                q &= Q(sub_category__category_id = category_id)
+            if sub_category_id:
+                q &= Q(sub_category_id = sub_category_id) 
 
-        category_id     = request.GET.get('category_id', None)
-        sub_category_id = request.GET.get('sub_category_id', None)
-        page_number     = request.GET.get('page', None)
+            products = Product.objects.filter(q) 
+            
+            product_list = [{
+                'id'         : product.id,
+                'image'      : product.thumbnail_image_url,
+                'brandName'  : product.furniture.brand.name,  
+                'productName': product.furniture.korean_name + '_' + product.color.korean_name,
+                'price'      : product.price
+            } for product in products]    
+            
+            paginator    = Paginator(product_list, 4)
+            product_list = paginator.page(page_number).object_list
+            page_list    = list(paginator.page_range)
 
-        q = Q()
-        if category_id:
-            q &= Q(sub_category__category_id=category_id)
-        if sub_category_id:
-            q &= Q(sub_category_id = sub_category_id) 
-
-        products = Product.objects.filter(q) 
-        
-        product_list = [{
-            'id'         : product.id,
-            'image'      : product.thumbnail_image_url,
-            'brandName'  : product.furniture.brand.name,  
-            'productName': product.furniture.korean_name + '_' + product.color.korean_name,
-            'price'      : product.price
-        } for product in products]    
-        
-        paginator    = Paginator(product_list, 4)
-        product_list = paginator.page(page_number).object_list
-        page_list    = list(paginator.page_range)
-
-        return JsonResponse({'message': 'SUCCESS', 'product_list': product_list, 'page_list': page_list}, status=200)
-
-
+            return JsonResponse({'message': 'SUCCESS', 'product_list': product_list, 'page_list': page_list}, status=200)
+        except Category.DoesNotExist:
+            return JsonResponse({'message': 'INVALID_CATEGORY'}, status=404)
+        except SubCategory.DoesNotExist:   
+            return JsonResponse({'message': 'INVALID_SUBCATEGORY'}, status=404)        
+        except paginator.EmptyPage:
+            return JsonResponse({'message': 'INVALID_PAGE'}, status=404)        
+            
 
 class ProductDetailView(View):
     def get(self, request, product_id):
