@@ -29,8 +29,8 @@ class CartView(View):
                 product = product,
                 defaults= {
                     "quantity" : quantity
-                    }
-                )
+                }
+            )
             
             if not is_created:
                 cart.quantity += quantity
