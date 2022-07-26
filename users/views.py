@@ -2,11 +2,14 @@ import json
 import re
 import bcrypt
 import jwt
+
 from django.http  import JsonResponse
 from django.views import View
 from django.conf  import settings
 
-from users.models import User
+from users.models    import User,Like
+from products.models import Product
+from core.utils      import LoginConfirm
 
 class SignUpView(View):
     def post(self, request):
@@ -80,3 +83,37 @@ class LoginView(View):
         
         except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
+
+class LikeView(View):
+    @LoginConfirm
+    def post(self, request):
+        data    = json.loads(request.body)
+        product = Product.objects.get(id = data['product_id'])
+
+        if not Like.objects.filter(user=request.user, product=product).exists():
+            Like.objects.create(
+                user    = request.user,
+                product = product
+            )
+        else:
+            Like.objects.get(user=request.user, product=product).delete()
+
+        likes = Like.objects.filter(user_id = request.user.id)
+        results_like = []
+
+        for like in likes:
+            results_like.append(
+                {
+                    "product_image"               : like.product.thumbnail_image_url,
+                    "user_firstname"              : like.user.first_name,
+                    "user_lastname"               : like.user.last_name,
+                    "furniture_korean_name"       : like.product.furniture.korean_name,
+                    "furniture_english_name"      : like.product.furniture.english_name,
+                    "furniture_brand"             : like.product.furniture.brand.name,
+                    "furniture_color_korean_name" : like.product.color.korean_name,
+                    "furniture_color_english_name": like.product.color.english_name,
+                    "price"                       : like.product.price,
+                }
+            )
+        return JsonResponse({"carts" : results_like}, status = 200)
+
