@@ -90,7 +90,7 @@ class LikeView(View):
         data    = json.loads(request.body)
         product = data['product_id']
 
-        product = Product.objects.get(id = data['product_id'])
+        product = Product.objects.get(id = product)
 
         if not Like.objects.filter(user=request.user, product=product).exists():
             Like.objects.create(
