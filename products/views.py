@@ -32,8 +32,6 @@ class ProductListView(View):
                 product_q      &= Q(sub_category = sub_category)
             
             count = len(Product.objects.filter(product_q))
-            if offset > count: 
-                return JsonResponse({'message': 'INVALID_OFFSET'}, status=404)
 
             sub_category_list = [ sub_category.name for sub_category in SubCategory.objects.filter(sub_category_q) ]
 
