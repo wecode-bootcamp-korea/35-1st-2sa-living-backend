@@ -12,22 +12,32 @@ class CartView(View):
     @LoginConfirm
     def post(self, request):
         try:
-            data      = json.loads(request.body)
-            product   = Product.objects.get(id = data['product_id'])
-            user      = request.user
-            quantity = data['quantity']
+            data       = json.loads(request.body)
+            product_id = data['product_id']
+            user       = request.user
+            quantity   = data['quantity']
 
-            if not Cart.objects.filter(product=product,user=user).exists():
-                Cart.objects.create(
-                    user     = user,
-                    product  = product,
-                    quantity = quantity
+            MINIMUM_QUANTITY = 1
+
+            if quantity < MINIMUM_QUANTITY:
+                return JsonResponse({"message" : "INVALID_QUANTIRY"}, status = 400)
+
+            product = Product.objects.get(id=product_id)
+
+            cart, is_created = Cart.objects.get_or_create(
+                user    = user,
+                product = product,
+                defaults= {
+                    "quantity" : quantity
+                    }
                 )
-            else:
-                cart = Cart.objects.get(product=product,user=user)
+            
+            if not is_created:
                 cart.quantity += quantity
                 cart.save()
-            return JsonResponse({"message" : "Created"}, status = 200)
+            
+            status = 201 if is_created else 200
+            return JsonResponse({"message" : "Created"}, status = status)
 
         except KeyError:
             return JsonResponse({"message" : "KeyError"}, status = 400)
