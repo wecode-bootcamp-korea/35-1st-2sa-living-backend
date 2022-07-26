@@ -2,8 +2,8 @@ from django.http       import JsonResponse
 from django.views      import View
 from django.db.models  import Q
 
-from .models import Category, SubCategory, Product
-
+from products.models import Category, SubCategory, Product
+from orders.models   import OrderItem
  
 class ProductListView(View):
     def get(self, request):
@@ -30,17 +30,21 @@ class ProductListView(View):
                 sub_category    = SubCategory.objects.get(id = sub_category_id)
                 sub_category_q &= Q(category=sub_category.category)
                 product_q      &= Q(sub_category = sub_category)
+            
+            count = len(Product.objects.filter(product_q))
+            if offset > count: 
+                return JsonResponse({'message': 'INVALID_OFFSET'}, status=404)
 
             sub_category_list = [ sub_category.name for sub_category in SubCategory.objects.filter(sub_category_q) ]
 
             sort_set = { 
                 1: 'id',
-                2: '-price',
-                3: 'price',
+                2: 'furniture__updated_at',
+                3: '-price',
+                4: 'price',
             }
 
-            sort_field = sort_set.get(sort_type, 'id')
-
+            sort_field = sort_set.get(sort_type, 'id')            
             products   = Product.objects.filter(product_q).order_by(sort_field)[offset:offset+limit]
             
             product_list = [{
@@ -49,9 +53,9 @@ class ProductListView(View):
                 'brandName'  : product.furniture.brand.name,  
                 'productName': product.furniture.korean_name + '_' + product.color.korean_name,
                 'price'      : product.price
-            } for product in products]    
+            } for product in products]                
 
-            return JsonResponse({'message': 'SUCCESS', 'sub_category_list': sub_category_list, 'product_list': product_list}, status=200)
+            return JsonResponse({'message': 'SUCCESS', 'count': count, 'sub_category_list': sub_category_list, 'product_list': product_list}, status=200)
         except Category.DoesNotExist:
             return JsonResponse({'message': 'INVALID_CATEGORY'}, status=404)
         except SubCategory.DoesNotExist:   
