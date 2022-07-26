@@ -5,11 +5,10 @@ from django.views    import View
 
 from products.models import Product
 from carts.models    import Cart
-from core.utils      import LoginConfirm
+from core.utils      import login_confirm
 
 class CartView(View):
-
-    @LoginConfirm
+    @login_confirm
     def get(self, request):
         
         carts = Cart.objects.filter(user_id = request.user.id)
