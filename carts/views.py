@@ -26,7 +26,7 @@ class CartView(View):
             else:
                 cart = Cart.objects.get(product=product,user=user)
                 cart.quantity += quantity
-                Cart.objects.filter(product=product,user=user).update(quantity=cart.quantity)
+                cart.save()
             return JsonResponse({"message" : "Created"}, status = 200)
 
         except KeyError:
