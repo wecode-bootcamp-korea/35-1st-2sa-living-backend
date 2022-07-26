@@ -1,30 +1,47 @@
-from django.http           import JsonResponse
-from django.views          import View
-from django.core.paginator import Paginator
-from django.db.models      import Q
+from django.http       import JsonResponse
+from django.views      import View
+from django.db.models  import Q
 
 from .models import Category, SubCategory, Product
 
-
+ 
 class ProductListView(View):
     def get(self, request):
         try:
+            DEFAULT_LIMIT = 4
+            DEFAULT_OFFSET = 0
+
             category_id     = request.GET.get('category_id', None)
             sub_category_id = request.GET.get('sub_category_id', None)
-            page_number     = request.GET.get('page', 1)
+            limit           = int(request.GET.get('limit', DEFAULT_LIMIT))
+            offset          = int(request.GET.get('offset', DEFAULT_OFFSET))
+            sort_type       = int(request.GET.get('sort_type', 1))  
             
-            if category_id:
-                Category.objects.get(id = category_id)
-            if sub_category_id:
-                SubCategory.objects.get(id = sub_category_id)
-            
-            q = Q()
-            if category_id:
-                q &= Q(sub_category__category_id = category_id)
-            if sub_category_id:
-                q &= Q(sub_category_id = sub_category_id) 
+            sub_category_q = Q()
 
-            products = Product.objects.filter(q) 
+            product_q = Q()
+
+            if category_id:
+                category        = Category.objects.get(id = category_id)
+                sub_category_q &= Q(category=category)
+                product_q      &= Q(sub_category__category = category)
+
+            if sub_category_id:
+                sub_category    = SubCategory.objects.get(id = sub_category_id)
+                sub_category_q &= Q(category=sub_category.category)
+                product_q      &= Q(sub_category = sub_category)
+
+            sub_category_list = [ sub_category.name for sub_category in SubCategory.objects.filter(sub_category_q) ]
+
+            sort_set = { 
+                1: 'id',
+                2: '-price',
+                3: 'price',
+            }
+
+            sort_field = sort_set.get(sort_type, 'id')
+
+            products   = Product.objects.filter(product_q).order_by(sort_field)[offset:offset+limit]
             
             product_list = [{
                 'id'         : product.id,
@@ -33,19 +50,12 @@ class ProductListView(View):
                 'productName': product.furniture.korean_name + '_' + product.color.korean_name,
                 'price'      : product.price
             } for product in products]    
-            
-            paginator    = Paginator(product_list, 4)
-            product_list = paginator.page(page_number).object_list
-            page_list    = list(paginator.page_range)
 
-            return JsonResponse({'message': 'SUCCESS', 'product_list': product_list, 'page_list': page_list}, status=200)
+            return JsonResponse({'message': 'SUCCESS', 'sub_category_list': sub_category_list, 'product_list': product_list}, status=200)
         except Category.DoesNotExist:
             return JsonResponse({'message': 'INVALID_CATEGORY'}, status=404)
         except SubCategory.DoesNotExist:   
-            return JsonResponse({'message': 'INVALID_SUBCATEGORY'}, status=404)        
-        except paginator.EmptyPage:
-            return JsonResponse({'message': 'INVALID_PAGE'}, status=404)        
-            
+            return JsonResponse({'message': 'INVALID_SUBCATEGORY'}, status=404)                 
 
 class ProductDetailView(View):
     def get(self, request, product_id):
