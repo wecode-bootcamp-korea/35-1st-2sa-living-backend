@@ -8,7 +8,6 @@ from carts.models    import Cart
 from core.utils      import login_comfirm
 
 class CartView(View):
-
     @login_comfirm
     def post(self, request):
         try:
