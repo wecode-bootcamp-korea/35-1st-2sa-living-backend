@@ -5,11 +5,11 @@ from django.views    import View
 
 from products.models import Product
 from carts.models    import Cart
-from core.utils      import LoginConfirm
+from core.utils      import login_comfirm
 
 class CartView(View):
 
-    @LoginConfirm
+    @login_comfirm
     def post(self, request):
         try:
             data       = json.loads(request.body)

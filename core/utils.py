@@ -5,7 +5,7 @@ from django.conf import settings
 
 from users.models import User
 
-def LoginConfirm(func):
+def login_comfirm(func):
     def wrapper(self, request, *args, **kwargs):
         try:
             token        = request.headers.get('Authorization', None)
