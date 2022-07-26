@@ -13,8 +13,8 @@ class CartView(View):
     def post(self, request):
         try:
             data       = json.loads(request.body)
-            product_id = data['product_id']
             user       = request.user
+            product_id = data['product_id']
             quantity   = data['quantity']
 
             MINIMUM_QUANTITY = 1
