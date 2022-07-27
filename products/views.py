@@ -3,8 +3,7 @@ from django.views      import View
 from django.db.models  import Q
 
 from products.models import Category, SubCategory, Product
-from orders.models   import OrderItem
- 
+
 class ProductListView(View):
     def get(self, request):
         try:
@@ -42,8 +41,9 @@ class ProductListView(View):
                 4: 'price',
             }
 
-            sort_field = sort_set.get(sort_type, 'id')            
-            products   = Product.objects.filter(product_q).order_by(sort_field)[offset:offset+limit]
+            sort_field = sort_set.get(sort_type, 'id')       
+
+            products = Product.objects.filter(product_q).order_by(sort_field)[offset:offset+limit]
             
             product_list = [{
                 'id'         : product.id,
