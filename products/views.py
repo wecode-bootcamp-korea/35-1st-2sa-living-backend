@@ -1,8 +1,57 @@
-from django.http  import JsonResponse
-from django.views import View
+from django.http       import JsonResponse
+from django.views      import View
+from django.db.models  import Q
 
-from .models import Product
+from products.models import Category, SubCategory, Product
 
+class ProductListView(View):
+    def get(self, request):
+        try:
+            DEFAULT_LIMIT = 4
+            DEFAULT_OFFSET = 0
+
+            category_id     = request.GET.get('category_id', None)
+            sub_category_id = request.GET.get('sub_category_id', None)
+            limit           = int(request.GET.get('limit', DEFAULT_LIMIT))
+            offset          = int(request.GET.get('offset', DEFAULT_OFFSET))
+            sort_type       = request.GET.get('sort_type', 'id')
+            
+            product_q = Q()
+
+            if category_id:
+                category        = Category.objects.get(id = category_id)
+                product_q      &= Q(sub_category__category = category)
+
+            if sub_category_id:
+                sub_category    = SubCategory.objects.get(id = sub_category_id)
+                product_q      &= Q(sub_category = sub_category)
+            
+            count = Product.objects.filter(product_q).count()   
+
+            sort_set = { 
+                'id': 'id',
+                'new': 'furniture__updated_at',
+                'high_price': '-price',
+                'low_price': 'price',
+            }
+
+            sort_field = sort_set.get(sort_type, 'id')       
+
+            products = Product.objects.filter(product_q).order_by(sort_field)[offset:offset+limit]
+            
+            product_list = [{
+                'id'         : product.id,
+                'image'      : product.thumbnail_image_url,
+                'brandName'  : product.furniture.brand.name,  
+                'productName': product.furniture.korean_name + '_' + product.color.korean_name,
+                'price'      : product.price
+            } for product in products]                
+
+            return JsonResponse({'message': 'SUCCESS', 'count': count, 'product_list': product_list}, status=200)
+        except Category.DoesNotExist:
+            return JsonResponse({'message': 'INVALID_CATEGORY'}, status=404)
+        except SubCategory.DoesNotExist:   
+            return JsonResponse({'message': 'INVALID_SUBCATEGORY'}, status=404)                 
 
 class ProductDetailView(View):
     def get(self, request, product_id):
