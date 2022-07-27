@@ -14,7 +14,7 @@ class ProductListView(View):
             sub_category_id = request.GET.get('sub_category_id', None)
             limit           = int(request.GET.get('limit', DEFAULT_LIMIT))
             offset          = int(request.GET.get('offset', DEFAULT_OFFSET))
-            sort_type       = int(request.GET.get('sort_type', 'id'))  
+            sort_type       = request.GET.get('sort_type', 'id')
             
             product_q = Q()
 
@@ -26,7 +26,7 @@ class ProductListView(View):
                 sub_category    = SubCategory.objects.get(id = sub_category_id)
                 product_q      &= Q(sub_category = sub_category)
             
-            count = Product.objects.filter(product_q).count()
+            count = Product.objects.filter(product_q).count()   
 
             sort_set = { 
                 'id': 'id',
