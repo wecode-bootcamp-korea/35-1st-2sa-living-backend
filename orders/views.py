@@ -1,18 +1,21 @@
 import uuid
-from datetime		 import datetime
-from django.views    	 import View
-from django.http     	 import JsonResponse
-from django.db       	 import transaction
-from django.db.models	 import Sum,F
-from core.utils     	 import login_confirm
-from orders.models   	 import Order, OrderItem, OrderStatus
-from carts.models    	 import Cart
+
+from datetime         import datetime
+from django.views     import View
+from django.http      import JsonResponse
+from django.db        import transaction
+from django.db.models import Sum,F
+
+from core.utils       import login_confirm
+from orders.models    import Order, OrderStatus, OrderItem
+from carts.models     import Cart
+from users.models     import User
 
 class OrderView(View):
 
     @login_confirm
     def post(self, request, *args, **kwargs):
-        user  = request.user
+        user     = request.user
         carts = Cart.objects.filter(user_id = request.user.id)
         if not carts.exists():
             return JsonResponse({"message" : "NOT EXIST CARTS"}, status=400)
@@ -25,7 +28,7 @@ class OrderView(View):
                 order_number = order_number,
                 order_status = order_status,
             )
-            order_items	 = [OrderItem(
+            order_items = [OrderItem(
                 order    = order,
                 product  = cart.product,
                 quantity = cart.quantity
