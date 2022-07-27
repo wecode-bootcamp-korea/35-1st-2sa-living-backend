@@ -87,32 +87,39 @@ class LoginView(View):
 class LikeView(View):
     @login_confirm
     def post(self, request):
-        data    = json.loads(request.body)
-        product = data['product_id']
+        try:
+            user    = request.user
+            data    = json.loads(request.body)
+            product = data['product_id']
 
-        product = Product.objects.get(id = product)
+            product = Product.objects.get(id = product)
 
-        if not Like.objects.filter(user=request.user, product=product).exists():
-            Like.objects.create(
-                user    = request.user,
-                product = product
-            )
-        else:
-            Like.objects.get(user=request.user, product=product).delete()
+            if not Like.objects.filter(user=user, product=product).exists():
+                Like.objects.create(
+                    user    = user,
+                    product = product
+                )
+            else:
+                Like.objects.get(user=user, product=product).delete()
 
-        likes = Like.objects.filter(user_id = request.user.id)
+            likes = Like.objects.filter(user_id = user.id)
 
-        results_like = [{
-            "product_image"               : like.product.thumbnail_image_url,
-            "user_firstname"              : like.user.first_name,
-            "user_lastname"               : like.user.last_name,
-            "furniture_korean_name"       : like.product.furniture.korean_name,
-            "furniture_english_name"      : like.product.furniture.english_name,
-            "furniture_brand"             : like.product.furniture.brand.name,
-            "furniture_color_korean_name" : like.product.color.korean_name,
-            "furniture_color_english_name": like.product.color.english_name,
-            "price"                       : like.product.price,
-            }for like in likes]
+            results_like = [{
+                "product_image"                : like.product.thumbnail_image_url,
+                "user_firstname"               : like.user.first_name,
+                "user_lastname"                : like.user.last_name,
+                "furniture_korean_name"        : like.product.furniture.korean_name,
+                "furniture_english_name"       : like.product.furniture.english_name,
+                "furniture_brand"              : like.product.furniture.brand.name,
+                "furniture_color_korean_name"  : like.product.color.korean_name,
+                "furniture_color_english_name" : like.product.color.english_name,
+                "price"                        : like.product.price,
+                }for like in likes]
 
-        return JsonResponse({"results" : results_like}, status = 200)
+            return JsonResponse({"results" : results_like}, status=200)
 
+        except json.JSONDecodeError:
+            return JsonResponse({"message" : "JSON_ERROR"}, status=400)
+
+        except KeyError:
+            return JsonResponse({"message" : "KEY_ERROR"}, status=400)
