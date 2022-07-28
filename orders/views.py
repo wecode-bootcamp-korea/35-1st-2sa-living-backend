@@ -1,6 +1,7 @@
 import uuid
+from datetime import datetime
+from enum     import Enum
 
-from datetime         import datetime
 from django.views     import View
 from django.http      import JsonResponse
 from django.db        import transaction
@@ -9,33 +10,36 @@ from django.db.models import Sum,F
 from core.utils       import login_confirm
 from orders.models    import Order, OrderStatus, OrderItem
 from carts.models     import Cart
-from users.models     import User
+
+class OrderStatus(Enum):
+    PAYED    = 1
+    PREPARED = 2
+    SHIPPING = 3
 
 class OrderView(View):
-
     @login_confirm
     def post(self, request, *args, **kwargs):
-        user     = request.user
-        carts = Cart.objects.filter(user_id = request.user.id)
+        user  = request.user
+        carts = Cart.objects.filter(user = request.user)
+        
         if not carts.exists():
-            return JsonResponse({"message" : "NOT EXIST CARTS"}, status=400)
+            return JsonResponse({"message" : "NOT EXIST CARTS"}, status=404)
 
         with transaction.atomic():
-            order_number = uuid.uuid4()
-            order_status = OrderStatus.objects.get(status="결제완료")
             order = Order.objects.create(
-                user         = user,
-                order_number = order_number,
-                order_status = order_status,
+                user            = user,
+                order_number    = uuid.uuid4(),
+                order_status_id = OrderStatus.PAIED.value,
             )
-            order_items = [OrderItem(
-                order    = order,
-                product  = cart.product,
-                quantity = cart.quantity
-            ) for cart in carts]
+            order_items = [
+                OrderItem(
+                    order    = order,
+                    product  = cart.product,
+                    quantity = cart.quantity
+                ) for cart in carts
+            ]
             carts.delete()
             OrderItem.objects.bulk_create(order_items)
-
 
         items = OrderItem.objects.filter(order_id = order.id)
         results_order_items = []
