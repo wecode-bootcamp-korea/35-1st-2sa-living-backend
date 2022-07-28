@@ -64,6 +64,8 @@ class ProductDetailView(View):
                     'korean_name'          : product.furniture.korean_name + '_' + product.color.korean_name,
                     'main_image'           : product.main_image_url,
                     'detail_image'         : [image.image_url for image in product.detail_image.all()],
+                    'price'                : product.price,
+                    'brand'                : product.furniture.brand.name,                    
                     'related_products_list': [{
                         'id'   : related_product.id,
                         'color': related_product.color.english_name,

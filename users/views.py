@@ -2,11 +2,14 @@ import json
 import re
 import bcrypt
 import jwt
+
 from django.http  import JsonResponse
 from django.views import View
 from django.conf  import settings
 
-from users.models import User
+from users.models    import User,Like
+from products.models import Product
+from core.utils      import LoginConfirm, login_confirm
 
 class SignUpView(View):
     def post(self, request):
@@ -80,3 +83,43 @@ class LoginView(View):
         
         except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
+
+class LikeView(View):
+    @login_confirm
+    def post(self, request):
+        try:
+            user    = request.user
+            data    = json.loads(request.body)
+            product = data['product_id']
+
+            product = Product.objects.get(id = product)
+
+            if not Like.objects.filter(user=user, product=product).exists():
+                Like.objects.create(
+                    user    = user,
+                    product = product
+                )
+            else:
+                Like.objects.get(user=user, product=product).delete()
+
+            likes = Like.objects.filter(user_id = user.id)
+
+            results_like = [{
+                "product_image"                : like.product.thumbnail_image_url,
+                "user_firstname"               : like.user.first_name,
+                "user_lastname"                : like.user.last_name,
+                "furniture_korean_name"        : like.product.furniture.korean_name,
+                "furniture_english_name"       : like.product.furniture.english_name,
+                "furniture_brand"              : like.product.furniture.brand.name,
+                "furniture_color_korean_name"  : like.product.color.korean_name,
+                "furniture_color_english_name" : like.product.color.english_name,
+                "price"                        : like.product.price,
+                }for like in likes]
+
+            return JsonResponse({"results" : results_like}, status=200)
+
+        except json.JSONDecodeError:
+            return JsonResponse({"message" : "JSON_ERROR"}, status=400)
+
+        except KeyError:
+            return JsonResponse({"message" : "KEY_ERROR"}, status=400)
