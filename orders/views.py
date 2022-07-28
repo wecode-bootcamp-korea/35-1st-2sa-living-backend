@@ -42,7 +42,9 @@ class OrderView(View):
                     quantity = cart.quantity
                 ) for cart in carts
             ]
+            
             carts.delete()
+            
             OrderItem.objects.bulk_create(order_items)
 
         result = {
@@ -63,7 +65,7 @@ class OrderView(View):
             }
                 
         return JsonResponse({"order_items" : result}, status = 200)
-class OrderView(View):
+
     @login_confirm
     def get(self, request, order_id):
         user = request.user
