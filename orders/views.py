@@ -34,7 +34,7 @@ class OrderView(View):
                 order_number    = uuid.uuid4(),
                 order_status_id = OrderStatus.PAYED.value,
             )
-            
+
             order_items = [
                 OrderItem(
                     order    = order,
@@ -45,12 +45,13 @@ class OrderView(View):
             carts.delete()
             OrderItem.objects.bulk_create(order_items)
 
-        items = OrderItem.objects.filter(order_id = order.id)
-        results_order_items = [{
-                    "order_id"                    : item.id,
+        result = {
+                "order_id"       : order.id,
+                "order_number"   : order.order_number,
+                "user_firstname" : order.user.first_name,
+                "user_lastname"  : order.user.last_name,
+                "order_items"    : [{
                     "order_image"                 : item.product.thumbnail_image_url,
-                    "user_firstname"              : item.order.user.first_name,
-                    "user_lastname"               : item.order.user.last_name,
                     "furniture_korean_name"       : item.product.furniture.korean_name,
                     "furniture_english_name"      : item.product.furniture.english_name,
                     "furniture_brand"             : item.product.furniture.brand.name,
@@ -58,6 +59,7 @@ class OrderView(View):
                     "furniture_color_english_name": item.product.color.english_name,
                     "price"                       : item.product.price,
                     "quantity"                    : item.quantity,
-                }for item in items]
+                }for item in order.orderitem_set.all()]
+            }
                 
-        return JsonResponse({"order_items" : results_order_items}, status = 200)
+        return JsonResponse({"order_items" : result}, status = 200)
