@@ -15,7 +15,7 @@
 - 이 사이트는 커머스사이트로 회원가입, 로그인, 제품보기, 장바구니, 주문하기 등의 기능을 모두 구현해 볼 수 있습니다.
 
 ### 데모 영상(이미지 클릭)
-![modeling](https://www.notion.so/2SA-Living-badc316558954f8e9a5ef746b2c01e12#4d07c4f468d04683bbec8c5559c02a4c)
+![](./1st_project_modeling.png)
 
 <br>
 
