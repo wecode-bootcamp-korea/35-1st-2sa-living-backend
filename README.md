@@ -8,7 +8,7 @@
 
 - 개발기간 : 2022/7/18 ~ 2022/7/29
 - 개발 인원 : 프론트엔드 4명, 백엔드 3명
-- [프론트 github 링크]()
+- [프론트 github 링크](https://github.com/wecode-bootcamp-korea/35-1st-2sa-living-frontend)
 
 ### 프로젝트 선정이유
 
